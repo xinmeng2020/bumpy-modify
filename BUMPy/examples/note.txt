@@ -1,0 +1,50 @@
+semicylinder_plane	R_cylinder	L_flat > 2(R_cylinder + R_junction)
+ 	L_cylinder	 
+ 	R_junction	 
+ 	L_flat
+
+
+
+
+works ok:
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane -z 10 -g r_cylinder:100 l_cylinder:100 r_junction:30 l_flat:300 -o out.pdb
+
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:100 l_cylinder:100 r_junction:30 l_flat:300 -o out.pdb
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:50 l_cylinder:100 r_junction:30 l_flat:300 -o out.pdb
+
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:30 l_cylinder:100 r_junction:30 l_flat:300 l_margin:-10  -o out.pdb
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:20 l_cylinder:100 r_junction:30 l_flat:300 l_margin:0  -o out.pdb
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:22 l_cylinder:100 r_junction:30 l_flat:100 l_margin:-6  -o out.pdb
+l_margin good for small radius systems, need trial and error, can set to 0 by default 
+
+--------example:
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:40 l_cylinder:100 r_junction:30 l_flat:150 l_margin:-6  -o out.pdb
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:40 l_cylinder:100 r_junction:30 l_flat:150 l_margin:-6  -o out.pdb -p topol.top -n index.ndx --gen_dummy_particles --dummy_grid_thickness 50
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:30 l_cylinder:100 r_junction:30 l_flat:150 l_margin:-6  -o out.pdb -p topol.top -n index.ndx --gen_dummy_particles --dummy_grid_thickness 50
+
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:60 l_cylinder:100 r_junction:30 l_flat:200 l_margin:0  -o out.pdb -p topol.top -n index.ndx --gen_dummy_particles --dummy_grid_thickness 50
+
+
+--------example of dummy particles:
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane_samiran -z 10 -g r_cylinder:20 l_cylinder:100 r_junction:30 l_flat:100 l_margin:1 -o out.pdb -p topol.top -n index.ndx --gen_dummy_particles --dummy_grid_thickness 50
+
+
+python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane  -z 10 -g r_cylinder:50 l_cylinder:100 r_junction:30 l_flat:100    -o out.pdb -p topol.top -n index.ndx --gen_dummy_particles --dummy_grid_thickness 50
+
+
+
+might get error: float division by zero
+
+ python bumpy.py -f input_pdbs/small_flat_bilayer.pdb -s semicylinder_plane -z 10 -g r_cylinder:50 l_cylinder:100 r_junction:10 l_flat:150 -o out.pdb
+Reading in PDB file  ... Finished reading PDB with 1392 atoms - time elapsed = 0.0 seconds
+Generating shape     ... Traceback (most recent call last):
+  File "bumpy.py", line 1502, in <module>
+    main()
+  File "bumpy.py", line 1466, in main
+    shape = shape_tobuild.gen_shape(template_bilayer, zo, **geometric_args)
+  File "bumpy.py", line 990, in gen_shape
+    junction  = shapes.cylinder.gen_shape(template_2, zo, r_junction, l_cylinder, completeness=0.25)
+  File "bumpy.py", line 828, in gen_shape
+    bot_leaflet.scale_coordinates_rectangular([1, cylinder_slice_length / inner_slice_length])
+ZeroDivisionError: float division by zero
+
